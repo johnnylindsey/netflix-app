@@ -33,7 +33,10 @@
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" />
                     </div>
-
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="password" name="password" />
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Create Account</button>
                     </div>

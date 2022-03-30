@@ -39,6 +39,7 @@ class NetflixController
     {
         unset($_SESSION["name"]);
         unset($_SESSION["email"]);
+        unset($_SESSION["password"]);
     }
 
 
@@ -46,16 +47,22 @@ class NetflixController
     private function login()
     {
 
-        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
+        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
 
             $data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["name"]);
 
             if ($data === false) {
                 $error_msg = "Bad user";
             } else if (!empty($data)) {
-                $_SESSION["email"] = $data[0]["email"];
-                $_SESSION["name"] = $data[0]["username"];
-                header("Location: ?command=netflix");
+                if (password_verify($_POST["password"], $data[0]["password"])) {
+
+                    $_SESSION["email"] = $data[0]["email"];
+                    $_SESSION["name"] = $data[0]["username"];
+                    $_SESSION["password"] = $data[0]["password"];
+                    header("Location: ?command=netflix");
+                } else {
+                    $error_msg = "Incorrect password";
+                }
             } else {
                 $error_msg = "Create an account first or re-try credentials.";
             }
@@ -69,13 +76,14 @@ class NetflixController
 
         if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
 
-            $insert = $this->db->query("insert into user (username, email) values (?, ?);", "ss", $_POST["name"], $_POST["email"]);
+            $insert = $this->db->query("insert into user (username, email, password) values (?, ?, ?);", "sss", $_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
 
             if ($insert === false) {
                 $error_msg = "Error inserting user";
             } else {
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["name"] = $_POST["name"];
+                $_SESSION["password"] = $_POST["password"];
                 header("Location: ?command=netflix");
             }
         }
@@ -99,5 +107,4 @@ class NetflixController
 
         return $select;
     }
-
 }
