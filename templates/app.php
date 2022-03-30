@@ -14,13 +14,13 @@
     <div class="container" style="margin-top: 15px;">
         <div class="row col-xs-8">
             <h1>Netflix App</h1>
-            <h3>Hi, <?= $user["name"] ?></h3>
+            <h3>Hi, <?= $user["name"]; ?></h3>
         </div>
 
         <div class="row">
             <div class="col-xs-8 mx-auto">
 
-                <form action="?command=app" method="post">
+                <form action="?command=netflix" method="post">
 
                     <div class="input-group h-10 p-5 mb-3">
                         <input type="text" class="form-control" name="answer" id="answer" placeholder="Enter movie here">

@@ -38,6 +38,8 @@
                     </div>
                 </form>
 
+                <br/>
+
                 <form action="?command=create" method="post">
                     <div class="text-center">
                         <button type="submit" name="create" class="btn btn-primary">Create Account</button>

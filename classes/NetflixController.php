@@ -51,7 +51,7 @@ class NetflixController
                 $error_msg = "Bad user";
             } else if (!empty($data)) {
                 $_SESSION["email"] = $data[0]["email"];
-                $_SESSION["name"] = $data[0]["name"];
+                $_SESSION["name"] = $data[0]["username"];
                 header("Location: ?command=netflix");
             } else {
                 $error_msg = "Create an account first or re-try credentials.";
@@ -79,10 +79,12 @@ class NetflixController
         include "templates/create-account.php";
     }
 
-
-    // Display the question template (and handle question logic)
     private function netflix()
     {
+        $user = [
+            "email" => $_SESSION["email"],
+            "name" => $_SESSION["name"]
+        ];
 
         include("templates/app.php");
     }
