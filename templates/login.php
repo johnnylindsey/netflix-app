@@ -33,14 +33,9 @@
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" />
                     </div>
-
                     <div class="text-center">
-                        <button type="submit" value="Login" name="login" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </div>
-
-                    <br />
-
-
                 </form>
 
                 <form action="?command=create" method="post">

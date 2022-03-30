@@ -13,11 +13,11 @@
 ////////////////////////////////////////////
 
 /** S22, PHP (on local XAMPP or CS server) connect to MySQL instance (GCP) **/
-$username = 'root';                      // or your username
-$password = 'your-root-password';        // or your password
-$host = 'cs4750:us-east4:db-demo';       // projectID = cs4750, SQL instance ID = db-demo
-$dbname = 'netflix';                   // database name = guestbook
-$dsn = "mysql:host=34.86.2.191;dbname=$dbname";       // connect PHP (XAMPP) to DB (GCP)
+//$username = 'root';                      // or your username
+//$password = 'fHC1tueuKA1a3xbJ';        // or your password
+//$host = 'cs4750:us-east4:db-demo';       // projectID = cs4750, SQL instance ID = db-demo
+//$dbname = 'netflix';                   // database name = guestbook
+//$dsn = "mysql:host=34.86.2.191;dbname=$dbname";       // connect PHP (XAMPP) to DB (GCP)
 
 // to get public IP addres of the SQL instance, go to GCP SQL overview page
 

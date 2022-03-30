@@ -21,13 +21,6 @@
             <div class="col-xs-8 mx-auto">
 
                 <form action="?command=app" method="post">
-                    <!--
-                    <div class="h-100 p-5 bg-light border rounded-3">
-                        <h2>Question</h2>
-                        <p><?= $wordle["wordle"] ?></p>
-                        <input type="hidden" name="questionid" value="<?= $wordle["id"] ?>" />
-                    </div>
-                    -->
 
                     <div class="input-group h-10 p-5 mb-3">
                         <input type="text" class="form-control" name="answer" id="answer" placeholder="Enter movie here">

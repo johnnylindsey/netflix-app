@@ -3,20 +3,24 @@ class NetflixController
 {
 
     private $command;
+    private $db;
 
     public function __construct($command)
     {
         $this->command = $command;
+        $this->db = new Database();
     }
 
     public function run()
     {
         switch ($this->command) {
-            case "wordle":
+            case "netflix":
                 $this->netflix();
                 break;
             case "logout":
-                $this->destroyCookies();
+                $this->destroySession();
+                header("Location: ?command=login");
+                break;
             case "create":
                 $this->createAccount();
                 break;
@@ -28,63 +32,48 @@ class NetflixController
     }
 
     // Clear all the cookies that we've set
-    private function destroyCookies()
+    private function destroySession()
     {
-        setcookie("name", "", time() - 3600);
-        setcookie("email", "", time() - 3600);
+        unset($_SESSION["name"]);
+        unset($_SESSION["email"]);
     }
 
 
     // Display the login page (and handle login logic)
-    public function login() {
+    private function login()
+    {
 
-        if (isset($_POST["email"]) && !empty($_POST["email"])) {
-            
-            global $db;
+        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
 
-            $query = "select * from user where email=:email and username=:name";
+            $data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["name"]);
 
-            $statement = $db->prepare($query);
-
-            $statement->bindValue(':email', $_POST["email"]);
-            $statement->bindValue(':name', $_POST["name"]);
-
-            $statement->execute();
-
-            $user = $statement->fetch();
-
-            if($user){
-                setcookie("name", $_POST["name"], time() + 3600);
-                setcookie("email", $_POST["email"], time() + 3600);
-                header("Location: ?command=wordle");
-                return;
+            if ($data === false) {
+                $error_msg = "Bad user";
+            } else if (!empty($data)) {
+                $_SESSION["email"] = $data[0]["email"];
+                $_SESSION["name"] = $data[0]["name"];
+                header("Location: ?command=netflix");
             } else {
-                echo "Invalid credentials. Try again or create an account.";
+                $error_msg = "Create an account first or re-try credentials.";
             }
         }
 
         include "templates/login.php";
     }
 
-    public function createAccount() {
+    private function createAccount()
+    {
 
-        if (isset($_REQUEST["email"]) && !empty($_REQUEST["email"])) {
-            
-            global $db;
+        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
 
-            $query = "insert into user (email, username) values (email=:email, username=:name)";
-
-            $statement = $db->prepare($query);
-
-            $statement->bindValue(':email', $_REQUEST["email"]);
-            $statement->bindValue(':name', $_REQUEST["name"]);
-
-            $statement->execute();
-
-            setcookie("name", $_POST["name"], time() + 3600);
-            setcookie("email", $_POST["email"], time() + 3600);
-            header("Location: ?command=wordle");
-            return;
+            $insert = $this->db->query("insert into user (name, email, password) values (?, ?, ?);", "sss", $_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
+            if ($insert === false) {
+                $error_msg = "Error inserting user";
+            } else {
+                $_SESSION["email"] = $insert[0]["email"];
+                $_SESSION["name"] = $insert[0]["name"];
+                header("Location: ?command=netflix");
+            }
         }
 
         include "templates/create-account.php";
@@ -92,32 +81,8 @@ class NetflixController
 
 
     // Display the question template (and handle question logic)
-    public function netflix()
+    private function netflix()
     {
-        // set user information for the page from the cookie
-        $user = [
-            "name" => $_COOKIE["name"],
-            "email" => $_COOKIE["email"]
-        ];
-
-        // if the user submitted an answer, check it
-        if (isset($_POST["answer"])) {
-            $answer = $_POST["answer"];
-
-            if ($_COOKIE["answer"] == $answer) {
-                // user answered correctly -- perhaps we should also be better about how we
-                // verify their answers, perhaps use strtolower() to compare lower case only.
-                $message = "<div class='alert alert-success'><b>$answer</b> was correct!</div>";
-
-                // Update the score
-                $user["score"] += 10;
-                // Update the cookie: won't be available until next page load (stored on client)
-                setcookie("score", $_COOKIE["score"] + 10, time() + 3600);
-            } else {
-                $message = "<div class='alert alert-danger'><b>$answer</b> was incorrect! The answer was: {$_COOKIE["answer"]}</div>";
-            }
-            setcookie("correct", "", time() - 3600);
-        }
 
         include("templates/app.php");
     }
