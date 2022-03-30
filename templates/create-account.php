@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="text-center">
-                        <button type="submit" name="create" class="btn btn-primary">Create Account</button>
+                        <button type="submit" class="btn btn-primary">Create Account</button>
                     </div>
                 </form>
             </div>

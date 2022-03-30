@@ -66,12 +66,13 @@ class NetflixController
 
         if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
 
-            $insert = $this->db->query("insert into user (name, email, password) values (?, ?, ?);", "sss", $_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
+            $insert = $this->db->query("insert into user (username, email) values (?, ?);", "ss", $_POST["name"], $_POST["email"]);
+            
             if ($insert === false) {
                 $error_msg = "Error inserting user";
             } else {
-                $_SESSION["email"] = $insert[0]["email"];
-                $_SESSION["name"] = $insert[0]["name"];
+                $_SESSION["email"] = $_POST["email"];
+                $_SESSION["name"] = $_POST["name"];
                 header("Location: ?command=netflix");
             }
         }

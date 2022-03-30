@@ -16,10 +16,7 @@ if (isset($_GET["command"]))
 // a valid session (they didn't get here from the login page),
 // so we should send them over to log in first before doing
 // anything else!
-if (!isset($_SESSION["email"])) {
-    // they need to see the login
-    $command = "login";
-}
+
 
 // Instantiate the controller and run
 $controller = new NetflixController($command);
