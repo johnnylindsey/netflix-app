@@ -24,9 +24,6 @@ class NetflixController
             case "create":
                 $this->createAccount();
                 break;
-            case "search":
-                $this->getMovieByName();
-                break;
             case "login":
             default:
                 $this->login();
@@ -37,7 +34,7 @@ class NetflixController
     // Clear all the cookies that we've set
     private function destroySession()
     {
-        unset($_SESSION["name"]);
+        unset($_SESSION["username"]);
         unset($_SESSION["email"]);
         unset($_SESSION["password"]);
     }
@@ -47,9 +44,9 @@ class NetflixController
     private function login()
     {
 
-        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
+        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["username"]) && !empty($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
 
-            $data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["name"]);
+            $data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["username"]);
 
             if ($data === false) {
                 $error_msg = "Bad user";
@@ -57,7 +54,7 @@ class NetflixController
                 if (password_verify($_POST["password"], $data[0]["password"])) {
 
                     $_SESSION["email"] = $data[0]["email"];
-                    $_SESSION["name"] = $data[0]["username"];
+                    $_SESSION["username"] = $data[0]["username"];
                     $_SESSION["password"] = $data[0]["password"];
                     header("Location: ?command=netflix");
                 } else {
@@ -74,15 +71,15 @@ class NetflixController
     private function createAccount()
     {
 
-        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
+        if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["username"]) && !empty($_POST["username"])) {
 
-            $insert = $this->db->query("insert into user (username, email, password) values (?, ?, ?);", "sss", $_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
+            $insert = $this->db->query("insert into user (username, email, password) values (?, ?, ?);", "sss", $_POST["username"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
 
             if ($insert === false) {
                 $error_msg = "Error inserting user";
             } else {
                 $_SESSION["email"] = $_POST["email"];
-                $_SESSION["name"] = $_POST["name"];
+                $_SESSION["username"] = $_POST["username"];
                 $_SESSION["password"] = $_POST["password"];
                 header("Location: ?command=netflix");
             }
@@ -95,7 +92,7 @@ class NetflixController
     {
         $user = [
             "email" => $_SESSION["email"],
-            "name" => $_SESSION["name"]
+            "username" => $_SESSION["username"]
         ];
 
         include("templates/app.php");

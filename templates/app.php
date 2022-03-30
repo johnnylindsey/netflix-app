@@ -14,7 +14,7 @@
     <div class="container" style="margin-top: 15px;">
         <div class="row col-xs-8">
             <h1>Netflix App</h1>
-            <h3>Hi, <?= $user["name"]; ?></h3>
+            <h3>Hi, <?= $user["username"]; ?></h3>
         </div>
 
         <div class="row">
