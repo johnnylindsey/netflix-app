@@ -24,6 +24,9 @@ class NetflixController
             case "create":
                 $this->createAccount();
                 break;
+            case "search":
+                $this->getMovieByName();
+                break;
             case "login":
             default:
                 $this->login();
@@ -67,7 +70,7 @@ class NetflixController
         if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["name"]) && !empty($_POST["name"])) {
 
             $insert = $this->db->query("insert into user (username, email) values (?, ?);", "ss", $_POST["name"], $_POST["email"]);
-            
+
             if ($insert === false) {
                 $error_msg = "Error inserting user";
             } else {
@@ -90,87 +93,11 @@ class NetflixController
         include("templates/app.php");
     }
 
-    public function addFriend($name, $major, $year)
+    public function getMovieByName($name = null)
     {
-        // db handler
-        global $db;
+        $select = $this->db->query("select * from movie where movieName = ?;", "s", $name);
 
-        $query = "insert into friends values(:name, :major, :year)";
-
-        // execute the sql
-        // $statement = $db->query($query);   // query() will compile and execute the sql
-        $statement = $db->prepare($query);
-
-        $statement->bindValue(':name', $name);
-        $statement->bindValue(':major', $major);
-        $statement->bindValue(':year', $year);
-
-        $statement->execute();
-
-        // release; free the connection to the server so other sql statements may be issued 
-        $statement->closeCursor();
+        return $select;
     }
 
-    public function getAllFriends()
-    {
-
-        global $db;
-        $query = "select * from friends";
-
-        $statement = $db->prepare($query);
-        $statement->execute();
-
-        // fetchAll() returns an array of all rows in the result set
-        $results = $statement->fetchAll();
-
-        $statement->closeCursor();
-
-        return $results;
-    }
-
-    public function getFriend_byName($name)
-    {
-        global $db;
-        $query = "select * from friends where name = :name";
-
-        $statement = $db->prepare($query);
-        $statement->bindValue(':name', $name);
-        $statement->execute();
-
-        // fetch() returns a row
-        $results = $statement->fetch();
-
-        $statement->closeCursor();
-
-        return $results;
-    }
-
-    public function updateFriend($name, $major, $year)
-    {
-        global $db;
-
-        $query = "update friends set major=:major, year=:year where name=:name";
-
-        $statement = $db->prepare($query);
-
-        $statement->bindValue(':name', $name);
-        $statement->bindValue(':major', $major);
-        $statement->bindValue(':year', $year);
-        $statement->execute();
-
-        $statement->closeCursor();
-    }
-
-    public function deleteFriend($name)
-    {
-        global $db;
-
-        $query = "delete from friends where name=:name";
-
-        $statement = $db->prepare($query);
-        $statement->bindValue(':name', $name);
-        $statement->execute();
-
-        $statement->closeCursor();
-    }
 }
