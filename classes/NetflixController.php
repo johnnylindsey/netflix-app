@@ -17,6 +17,9 @@ class NetflixController
             case "netflix":
                 $this->netflix();
                 break;
+            case "account":
+                $this->account();
+                break;
             case "logout":
                 $this->destroySession();
                 header("Location: ?command=login");
@@ -96,6 +99,22 @@ class NetflixController
         ];
 
         include("templates/app.php");
+    }
+
+    private function account()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        // SELECT MovieName FROM favorites NATURAL JOIN user NATURAL JOIN movie WHERE username = 'user22';
+        //$data_favorites = $this->db->query("select * from favorites where username = ?;", "s", "user22");
+        $data_favorites = $this->db->query("select movieName FROM favorites NATURAL JOIN user NATURAL JOIN movie WHERE username = ?;", "s", $user["username"]);
+        $data_comments = $this->db->query("select movieName, commentText, time FROM user NATURAL JOIN commentsOn NATURAL JOIN movie NATURAL JOIN comment WHERE username = ?;", "s", $user["username"]);  //", "s", $user["username"]);
+
+        include("templates/account.php");
     }
 
     public function getMovieByName($name = null)
