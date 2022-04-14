@@ -69,18 +69,18 @@
                 </table>
                 <br/>
             </div>
-
+            <br></br> 
             <div class="col-4 mx-auto">
-                <h3 class="text-center">Who stars in this movie?</h2>
+                <h3 class="text-center" style="color: white;">Who stars in this movie?</h2>
 
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr class="text-white">
                             <th scope="col">Show ID</th>
                             <th scope="col">Star</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php
                         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
                         $stars = $this->db->query("select * from starsin where showID = ?", "s", $d[0]["showID"]);
@@ -95,18 +95,18 @@
                     </tbody>
                 </table>
             </div>
-
+            <br></br>
             <div class="col-4 mx-auto">
-                <h3 class="text-center">Who directed this movie?</h2>
+                <h3 class="text-center" style="color: white;">Who directed this movie?</h2>
 
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr class="text-white">
                             <th scope="col">Show ID</th>
                             <th scope="col">Director</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php
                         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
                         $directs = $this->db->query("select * from directs where showID = ?", "s", $d[0]["showID"]);
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-
+        <br></br>
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Comments</h2>
         </div>
@@ -154,7 +154,8 @@
                 </table>
 
                 <br />
-
+                <br></br>
+                <h5 class="text-center" style="color: white;">Add Your Own Comment!</h5>
                 <div class="text-center">
                     <form action="?command=addComment" method="post">
 
