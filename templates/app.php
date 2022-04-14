@@ -17,6 +17,12 @@
             <h3>Hi, <?= $user["username"]; ?></h3>
         </div>
 
+        <?php
+        if (!empty($error_msg)) {
+            echo "<div class='alert alert-danger'>$error_msg</div>";
+        }
+        ?>
+
         <div class="row">
             <div class="col-xs-8 mx-auto">
 

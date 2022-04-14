@@ -17,6 +17,12 @@
             <h3>Hi, <?= $user["username"]; ?></h3>
         </div>
 
+        <?php
+                if (!empty($error_msg)) {
+                    echo "<div class='alert alert-danger'>$error_msg</div>";
+                }
+        ?>
+
         <div class="h-10 p-5">
             <h2>Results for <?= $_SESSION["theMovie"] ?></h2>
         </div>

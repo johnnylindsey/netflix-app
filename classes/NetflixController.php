@@ -102,7 +102,6 @@ class NetflixController
 
     private function deleteAccount()
     {
-        if (isset($_POST["deleteMe"])) {
             $delete = $this->db->query("delete from user where username = ?", "s", $_SESSION["username"]);
 
             if ($delete === false) {
@@ -111,7 +110,6 @@ class NetflixController
                 $this->destroySession();
                 header("Location: ?command=login");
             }
-        }
 
     }
 
