@@ -17,12 +17,18 @@ class NetflixController
             case "netflix":
                 $this->netflix();
                 break;
+            case "movie":
+                $this->movie();
+                break;
             case "logout":
                 $this->destroySession();
                 header("Location: ?command=login");
                 break;
             case "create":
                 $this->createAccount();
+                break;
+            case "addComment":
+                $this->addComment();
                 break;
             case "login":
             default:
@@ -98,10 +104,98 @@ class NetflixController
         include("templates/app.php");
     }
 
+    private function movie()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        $_SESSION["theMovie"] = $_POST["theMovie"];
+
+        include("templates/movie.php");
+    }
+
     public function getMovieByName($name = null)
     {
         $select = $this->db->query("select * from movie where movieName = ?;", "s", $name);
 
         return $select;
+    }
+
+    private function addComment()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+        $theInsert = $this->db->query("insert into comment (showID, time, username, commentText) values (?, ?, ?, ?);", "ssss", $d[0]["showID"], date("Y-m-d h:i:sa"), $user["username"], $_POST["theComment"]);
+        header("Location: ?command=netflix");
+    }
+
+    function getAllComments()
+    {
+        global $db;
+        $query = "select * from Comment";
+
+
+        // 1. prepare
+        // 2. bindValue & execute
+        $statement = $db->prepare($query);
+        $statement->execute();
+
+        // fetchAll() returns an array of all rows in the result set
+        $results = $statement->fetchAll();
+
+        $statement->closeCursor();
+
+        return $results;
+    }
+
+    function getComment_byName($username)
+    {
+        global $db;
+        $query = "select * from Comment where username = :name";
+
+        // 1. prepare
+        // 2. bindValue & execute
+        $statement = $db->prepare($query);
+        $statement->bindValue(':name', $username);
+        $statement->execute();
+
+        // fetch() returns a row
+        $results = $statement->fetch();
+
+        $statement->closeCursor();
+
+        return $results;
+    }
+
+    function updateComment($username, $commentText)
+    {
+        global $db;
+        $query = "update Comment set commentText=:commentText where username=:name";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':commentText', $commentText);
+        $statement->bindValue(':name', $username);
+        //making sure it runs against the database
+        $statement->execute();
+        $statement->closeCursor();
+    }
+
+
+    function deleteComment($username)
+    {
+        global $db;
+        $query = "delete from Comment where username=:name";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':name', $username);
+        //making sure it runs against the database
+        $statement->execute();
+        $statement->closeCursor();
     }
 }
