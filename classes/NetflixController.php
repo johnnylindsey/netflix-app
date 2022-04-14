@@ -80,6 +80,15 @@ class NetflixController
         include "templates/login.php";
     }
 
+    private function logout()
+    {
+
+        if (isset($_POST["logout"])) {
+            $this->destroySession();
+            header("Location: ?command=login");
+        }
+    }
+
     private function createAccount()
     {
 
