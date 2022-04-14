@@ -10,15 +10,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: rgb(28, 148, 148);">
+<nav class="navbar navbar-dark bg-dark" >
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Netflix App</a>
+    </div>
+        <ul class="nav navbar-nav">
+            <li><a href="?command=netflix" class="text-white">Netflix</a></li>
+            <li><a href="?command=myAccount" class="text-white">My Account</a></li>
+            <li><a href="?command=logout" class="text-white">Logout</a></li>
+        </ul>
+    </div>
+</nav>
     <div class="container" style="margin-top: 15px;">
-        <div class="row col-xs-8">
-            <h1>Netflix App</h1>
-            <h3>Hi, <?= $user["username"]; ?></h3>
+        <div style="color: white;">
+            <h1 class="text-center">Netflix App</h1>
+            <h3 class="text-center">Hi, <?= $user["username"]; ?></h3>
         </div>
 
         <div class="h-10 p-5">
-            <h2>Results for <?= $_SESSION["theMovie"] ?></h2>
+            <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
         </div>
 
         <div class="row">
@@ -26,15 +38,15 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Show ID</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Comment</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Year</th>
-                            <th scope="col">Country</th>
+                            <th scope="col" class="text-white">Show ID</th>
+                            <th scope="col" class="text-white">Username</th>
+                            <th scope="col" class="text-white">Comment</th>
+                            <th scope="col" class="text-white">Duration</th>
+                            <th scope="col" class="text-white">Year</th>
+                            <th scope="col" class="text-white">Country</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php
                         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
 
@@ -53,7 +65,7 @@
         </div>
 
         <div class="h-10 p-5">
-            <h2>Comments</h2>
+            <h2 class="text-center" style="color: white;">Comments</h2>
         </div>
 
         <div class="row">
@@ -61,13 +73,13 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Comment</th>
+                            <th scope="col" class="text-white">#</th>
+                            <th scope="col" class="text-white">Username</th>
+                            <th scope="col" class="text-white">Time</th>
+                            <th scope="col" class="text-white">Comment</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php
                         $cdat = $this->db->query("select * from comment where showID = ?", "s", $d[0]['showID']);
 
@@ -88,7 +100,7 @@
 
                         <div class="input-group h-10 p-5 mb-3">
                             <input type="text" class="form-control" name="theComment" id="theComment" placeholder="Enter comment here">
-                            <button class="btn btn-primary" type="submit">Add</button>
+                            <button class="btn btn-dark" type="submit">Add</button>
                         </div>
                     </form>
                 </div>

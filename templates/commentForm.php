@@ -57,7 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   
 </head>
 
-<body>
+<body style="background-color: rgb(28, 148, 148);">
+<nav class="navbar navbar-dark bg-dark" >
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Netflix App</a>
+    </div>
+        <ul class="nav navbar-nav">
+            <li><a href="?command=netflix" class="text-white">Netflix</a></li>
+            <li><a href="?command=myAccount" class="text-white">My Account</a></li>
+            <li><a href="?command=logout" class="text-white">Logout</a></li>
+        </ul>
+    </div>
+</nav>
 <div class="container">
   <h1>Comments</h1>  
 
