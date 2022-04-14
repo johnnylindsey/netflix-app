@@ -29,6 +29,12 @@
             <h3 class="text-center">Hi, <?= $user["username"]; ?></h3>
         </div>
 
+        <?php
+        if (!empty($error_msg)) {
+            echo "<div class='alert alert-danger'>$error_msg</div>";
+        }
+        ?>
+
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
         </div>
@@ -61,8 +67,62 @@
                         ?>
                     </tbody>
                 </table>
+                <br/>
+            </div>
+
+            <div class="col-4 mx-auto">
+                <h3 class="text-center">Who stars in this movie?</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Show ID</th>
+                            <th scope="col">Star</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+                        $stars = $this->db->query("select * from starsin where showID = ?", "s", $d[0]["showID"]);
+
+                        $count = 1;
+                        foreach ($stars as $s) {
+                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $s['showID'] . "</td><td>" . $s['name'] . "</td>";
+                            $count = $count + 1;
+                        }
+                        
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4 mx-auto">
+                <h3 class="text-center">Who directed this movie?</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Show ID</th>
+                            <th scope="col">Director</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+                        $directs = $this->db->query("select * from directs where showID = ?", "s", $d[0]["showID"]);
+
+                        $count = 1;
+                        foreach ($directs as $d) {
+                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $d['showID'] . "</td><td>" . $d['name'] . "</td>";
+                            $count = $count + 1;
+                        }
+                        
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
+
 
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Comments</h2>
@@ -93,7 +153,7 @@
                     </tbody>
                 </table>
 
-                <br/>
+                <br />
 
                 <div class="text-center">
                     <form action="?command=addComment" method="post">

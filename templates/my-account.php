@@ -33,6 +33,12 @@
         </div>
         <?= $error_msg ?>
 
+        <?php
+            if (!empty($error_msg)) {
+                echo "<div class='alert alert-danger'>$error_msg</div>";
+            }
+        ?>
+
         <div class="text-center" style="color: white;">
             <h2>My Comments</h2>
         </div>
@@ -64,13 +70,15 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <form action="?command=deleteAccount" method="post">
+        <div class="row">
+            <div class=" col-xs-8 mx-auto">
+                <form action="?command=deleteAccount" method="post">
 
                 <div class="col text-center">
                     <button class="btn btn-dark" name="deleteMe" type="submit">Delete Account</button>
                 </div>
             </form>
+            </div>
         </div>
 
     </div>

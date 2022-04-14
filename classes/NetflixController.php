@@ -80,6 +80,15 @@ class NetflixController
         include "templates/login.php";
     }
 
+    private function logout()
+    {
+
+        if (isset($_POST["logout"])) {
+            $this->destroySession();
+            header("Location: ?command=login");
+        }
+    }
+
     private function createAccount()
     {
 
@@ -102,7 +111,6 @@ class NetflixController
 
     private function deleteAccount()
     {
-        if (isset($_POST["deleteMe"])) {
             $delete = $this->db->query("delete from user where username = ?", "s", $_SESSION["username"]);
 
             if ($delete === false) {
@@ -111,7 +119,6 @@ class NetflixController
                 $this->destroySession();
                 header("Location: ?command=login");
             }
-        }
 
     }
 
