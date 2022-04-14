@@ -10,11 +10,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color: rgb(28, 148, 148);">
+<nav class="navbar navbar-dark bg-dark" >
+    <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Netflix App</a>
+    </div>
+        <ul class="nav navbar-nav">
+            <li><a href="?command=netflix" class="text-white">Netflix</a></li>
+            <li><a href="?command=myAccount" class="text-white">My Account</a></li>
+            <li><a href="?command=logout" class="text-white">Logout</a></li>
+        </ul>
+    </div>
+</nav>
     <div class="container" style="margin-top: 15px;">
-        <div class="row col-xs-8">
-            <h1>Netflix App</h1>
-            <h3>Hi, <?= $user["username"]; ?></h3>
+        <div class="row col-xs-8" style="color: white;">
+            <h1 class="text-center">Netflix App</h1>
+            <h3 class="text-center">Welcome, <?= $user["username"]; ?></h3>
         </div>
 
         <?php
@@ -23,38 +35,25 @@
         }
         ?>
 
-        <div class="row">
-            <div class="col-xs-8 mx-auto">
-
-                <form action="?command=movie" method="post">
-
-                    <div class="input-group h-10 p-5 mb-3">
-                        <input type="text" class="form-control" name="theMovie" id="theMovie" placeholder="Enter movie here">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
+        
             <br />
         </div>
 
         <div class="row">
             <div class="col-xs-8 mx-auto">
-                <h2 class="text-center">Complete List of Movies</h2>
+                <h2 class="text-center" style="color: white;">Complete List of Movies</h2>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Show ID</th>
-                            <th scope="col">Movie</th>
-                            <th scope="col">Rating</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Year</th>
-                            <th scope="col">Country</th>
+                            <th scope="col" class="text-white">Show ID</th>
+                            <th scope="col" class="text-white">Movie</th>
+                            <th scope="col" class="text-white">Rating</th>
+                            <th scope="col" class="text-white">Duration</th>
+                            <th scope="col" class="text-white">Year</th>
+                            <th scope="col" class="text-white">Country</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php
                         $data = $this->db->query("select * from movie order by movieName asc");
 
@@ -71,7 +70,22 @@
             </div>
 
         </div>
+        <br></br>
+        <h4 class="text-center" style="color: white;">Search the Name of a Movie to Learn More</h4>
+        <div class="row">
+            <div class="col-xs-8 mx-auto">
 
+                <form action="?command=movie" method="post">
+
+                    <div class="input-group h-10 p-5 mb-3">
+                        <input type="text" class="form-control" name="theMovie" id="theMovie" placeholder="Enter movie here">
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
