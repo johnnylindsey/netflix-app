@@ -29,8 +29,8 @@
 ////////////////////////////////////////////
 
 /** S22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = 'KyaCarrington';
-$password = 'Dball45867$$';
+$username = 'root';
+$password = 'password';
 $host = 'localhost:3306';
 $dbname = 'netflix';
 $dsn = "mysql:host=$host;dbname=$dbname";  
