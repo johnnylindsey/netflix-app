@@ -37,6 +37,39 @@
                 </form>
 
             </div>
+            <br />
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8 mx-auto">
+                <h2 class="text-center">Complete List of Movies</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Show ID</th>
+                            <th scope="col">Movie</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Country</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $data = $this->db->query("select * from movie order by movieName asc");
+
+                        $count = 1;
+
+                        foreach ($data as $d) {
+                            echo "<tr><th scope='row'>" . $d['showID'] . "</th><td>" . $d['movieName'] . "</td><td>" . $d['rating'] . "</td><td>" . $d['duration'] . "</td><td>" . $d['releaseYear'] . "</td><td>" . $d['country'] . "</td></tr>";
+                            $count = $count + 1;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <br />
+            </div>
+
         </div>
 
     </div>
