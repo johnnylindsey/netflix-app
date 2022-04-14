@@ -24,11 +24,17 @@ class NetflixController
                 $this->destroySession();
                 header("Location: ?command=login");
                 break;
+            case "myAccount":
+                $this->myAccount();
+                break;
             case "create":
                 $this->createAccount();
                 break;
             case "addComment":
                 $this->addComment();
+                break;
+            case "deleteAccount":
+                $this->deleteAccount();
                 break;
             case "login":
             default:
@@ -94,6 +100,21 @@ class NetflixController
         include "templates/create-account.php";
     }
 
+    private function deleteAccount()
+    {
+        if (isset($_POST["deleteMe"])) {
+            $delete = $this->db->query("delete from user where username = ?", "s", $_SESSION["username"]);
+
+            if ($delete === false) {
+                $error_msg = "Error deleting user";
+            } else {
+                $this->destroySession();
+                header("Location: ?command=login");
+            }
+        }
+
+    }
+
     private function netflix()
     {
         $user = [
@@ -115,6 +136,17 @@ class NetflixController
         $_SESSION["theMovie"] = $_POST["theMovie"];
 
         include("templates/movie.php");
+    }
+
+    private function myAccount()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        include("templates/my-account.php");
     }
 
     public function getMovieByName($name = null)
