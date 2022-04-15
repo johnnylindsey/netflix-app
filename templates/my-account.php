@@ -30,7 +30,12 @@
             <h3 class="text-center">Hi, <?= $user["username"]; ?></h3>
         </div>
         </div>
-        <?= $error_msg ?>
+        
+        <?php
+        if (!empty($error_msg)) {
+            echo "<div class='alert alert-danger'>$error_msg</div>";
+        }
+        ?>
 
         <?php
             if (!empty($error_msg)) {
