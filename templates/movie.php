@@ -11,18 +11,18 @@
 </head>
 
 <body style="background-color: rgb(28, 148, 148);">
-<nav class="navbar navbar-dark bg-dark" >
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Netflix App</a>
-    </div>
-        <ul class="nav navbar-nav">
-            <li><a href="?command=netflix" class="text-white">Netflix</a></li>
-            <li><a href="?command=myAccount" class="text-white">My Account</a></li>
-            <li><a href="?command=logout" class="text-white">Logout</a></li>
-        </ul>
-    </div>
-</nav>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Netflix App</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="?command=netflix" class="text-white">Netflix</a></li>
+                <li><a href="?command=myAccount" class="text-white">My Account</a></li>
+                <li><a href="?command=logout" class="text-white">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container" style="margin-top: 15px;">
         <div style="color: white;">
             <h1 class="text-center">Netflix App</h1>
@@ -50,6 +50,15 @@
 
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
+            <br/>
+            <div class="col-1 mx-auto">
+                <form action="?command=favorite" method="post">
+
+                    <div class="input-group h-10">
+                        <button class="btn btn-dark" name="favorite" type="submit">Favorite</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <div class="row">
@@ -59,7 +68,7 @@
                         <tr>
                             <th scope="col" class="text-white">Show ID</th>
                             <th scope="col" class="text-white">Username</th>
-                            <th scope="col" class="text-white">Comment</th>
+                            <th scope="col" class="text-white">Rating</th>
                             <th scope="col" class="text-white">Duration</th>
                             <th scope="col" class="text-white">Year</th>
                             <th scope="col" class="text-white">Country</th>
@@ -80,59 +89,59 @@
                         ?>
                     </tbody>
                 </table>
-                <br/>
+                <br />
             </div>
-            <br></br> 
+            <br></br>
             <div class="col-4 mx-auto">
                 <h3 class="text-center" style="color: white;">Who stars in this movie?</h2>
 
-                <table class="table">
-                    <thead>
-                        <tr class="text-white">
-                            <th scope="col">Show ID</th>
-                            <th scope="col">Star</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-white">
-                        <?php
-                        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
-                        $stars = $this->db->query("select * from starsin where showID = ?", "s", $d[0]["showID"]);
+                    <table class="table">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col">Show ID</th>
+                                <th scope="col">Star</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-white">
+                            <?php
+                            $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+                            $stars = $this->db->query("select * from starsin where showID = ?", "s", $d[0]["showID"]);
 
-                        $count = 1;
-                        foreach ($stars as $s) {
-                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $s['showID'] . "</td><td>" . $s['name'] . "</td>";
-                            $count = $count + 1;
-                        }
-                        
-                        ?>
-                    </tbody>
-                </table>
+                            $count = 1;
+                            foreach ($stars as $s) {
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $s['showID'] . "</td><td>" . $s['name'] . "</td>";
+                                $count = $count + 1;
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
             </div>
             <br></br>
             <div class="col-4 mx-auto">
                 <h3 class="text-center" style="color: white;">Who directed this movie?</h2>
 
-                <table class="table">
-                    <thead>
-                        <tr class="text-white">
-                            <th scope="col">Show ID</th>
-                            <th scope="col">Director</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-white">
-                        <?php
-                        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
-                        $directs = $this->db->query("select * from directs where showID = ?", "s", $d[0]["showID"]);
+                    <table class="table">
+                        <thead>
+                            <tr class="text-white">
+                                <th scope="col">Show ID</th>
+                                <th scope="col">Director</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-white">
+                            <?php
+                            $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+                            $directs = $this->db->query("select * from directs where showID = ?", "s", $d[0]["showID"]);
 
-                        $count = 1;
-                        foreach ($directs as $d) {
-                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $d['showID'] . "</td><td>" . $d['name'] . "</td>";
-                            $count = $count + 1;
-                        }
-                        
-                        ?>
-                    </tbody>
-                </table>
+                            $count = 1;
+                            foreach ($directs as $d) {
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $d['showID'] . "</td><td>" . $d['name'] . "</td>";
+                                $count = $count + 1;
+                            }
+
+                            ?>
+                        </tbody>
+                    </table>
             </div>
         </div>
 
