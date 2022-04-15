@@ -37,6 +37,7 @@ class Database {
 
         return true;
     }
+<<<<<<< HEAD
     */
     
     
@@ -63,3 +64,6 @@ class Database {
     }
     
 }
+=======
+}
+>>>>>>> d01993ec4fb6d66f9a406a038318ac9674bb4a28
