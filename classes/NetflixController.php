@@ -186,6 +186,7 @@ class NetflixController
 
         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
         $theInsert = $this->db->query("insert into comment (showID, time, username, commentText) values (?, ?, ?, ?);", "ssss", $d[0]["showID"], date("Y-m-d h:i:sa"), $user["username"], $_POST["theComment"]);
+        $commentsOn = $this->db->query("insert into commentsOn (username, showID) values (?, ?);", "ss",  $user["username"], $d[0]["showID"]);
         header("Location: ?command=netflix");
     }
 
