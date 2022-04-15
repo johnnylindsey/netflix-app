@@ -6,7 +6,7 @@ class Database {
     public function __construct() {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->mysqli = new mysqli(Config::$db["host"], 
-                Config::$db["user"], Config::$db["pass"], Config::$db["database"]);
+                Config::$db["user"], Config::$db["pass"]);
     }
 
     public function query($query, $bparam=null, ...$params) {
