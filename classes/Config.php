@@ -6,5 +6,7 @@ class Config {
         "user" => "root",
         "pass" => "",
         "database" => "netflix"
+
+        
     ];
 }
