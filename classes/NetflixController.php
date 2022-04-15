@@ -183,18 +183,6 @@ class NetflixController
 
         return $select;
     }
-
-    private function favorite()
-    {
-
-        $user = [
-            "email" => $_SESSION["email"],
-            "username" => $_SESSION["username"]
-        ];
-
-        $s = $this->db->query("select * from movie where movieName = ?;", "s", $_SESSION["theMovie"]);
-        $theInsert = $this->db->query("insert into favorites (username, showID) values (?, ?);", "ss", $user["username"], $s[0]["showID"]);
-    }  
     
     private function deleteFavorite($showID)
     {

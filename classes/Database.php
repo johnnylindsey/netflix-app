@@ -3,24 +3,24 @@
 class Database {
     private $mysqli;
 
-    /*
+    
     public function __construct() {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->mysqli = new mysqli(Config::$db["host"], 
                 Config::$db["user"], Config::$db["pass"], Config::$db["database"]);
     }
-    */
     
     
+    /*
     public function __construct() {
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->mysqli = new PDO(Config::$db["host"], 
                 Config::$db["user"], Config::$db["pass"]);
     }
+    */
     
     
     
-    /*
     public function query($query, $bparam=null, ...$params) {
         $stmt = $this->mysqli->prepare($query);
 
@@ -37,9 +37,8 @@ class Database {
 
         return true;
     }
-<<<<<<< HEAD
-    */
     
+    /*
     
     public function query($query, $bparam=null, ...$params) {
         $stmt = $this->mysqli->prepare($query);
@@ -62,8 +61,5 @@ class Database {
 
         return true;
     }
-    
+    */
 }
-=======
-}
->>>>>>> d01993ec4fb6d66f9a406a038318ac9674bb4a28

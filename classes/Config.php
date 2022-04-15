@@ -3,10 +3,10 @@
 class Config
 {
     public static $db = [
-        "host" => "portal.cs.virginia.edu:22",
+        "host" => "localhost:3306",
         "user" => "jbl5xq",
-        "pass" => "M@rshydashy1212!",
-        "database" => "netflix"
+        "pass" => "IIWYZT9ys4iA",
+        "database" => "jbl5xq"
 
         //"host" => "mysql:unix_socket=/cloudsql/master-vehicle-344423:us-east4:db-demo;dbname=netflix",
         //"user" => "root",
