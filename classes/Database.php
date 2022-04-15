@@ -36,28 +36,4 @@ class Database {
 
         return true;
     }
-    
-    /*
-    public function query($query, $bparam=null, ...$params) {
-        $stmt = $this->mysqli->prepare($query);
-
-        for($i = 1; $i <= count($params); $i++){
-            $stmt->bindParam($bparam, ...$params);
-        }
-
-        if (($res = $stmt->execute()) === false) {
-            return false;
-        }
-
-        if ($res !== false) {
-            if($res){
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                return "";
-            }
-        }
-
-        return true;
-    }
-    */
 }
