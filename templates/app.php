@@ -11,18 +11,18 @@
 </head>
 
 <body style="background-color: rgb(28, 148, 148);">
-<nav class="navbar navbar-dark bg-dark" >
-    <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Netflix App</a>
-    </div>
-        <ul class="nav navbar-nav">
-            <li><a href="?command=netflix" class="text-white">Netflix</a></li>
-            <li><a href="?command=myAccount" class="text-white">My Account</a></li>
-            <li><a href="?command=logout" class="text-white">Logout</a></li>
-        </ul>
-    </div>
-</nav>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Netflix App</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="?command=netflix" class="text-white">Netflix</a></li>
+                <li><a href="?command=myAccount" class="text-white">My Account</a></li>
+                <li><a href="?command=logout" class="text-white">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container" style="margin-top: 15px;">
         <div class="row col-xs-8" style="color: white;">
             <h1 class="text-center">Netflix App</h1>
@@ -35,57 +35,84 @@
         }
         ?>
 
-        
+
+        <br />
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8 mx-auto">
+            <h2 class="text-center" style="color: white;">Complete List of Movies</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-white">Show ID</th>
+                        <th scope="col" class="text-white">Movie</th>
+                        <th scope="col" class="text-white">Rating</th>
+                        <th scope="col" class="text-white">Duration</th>
+                        <th scope="col" class="text-white">Year</th>
+                        <th scope="col" class="text-white">Country</th>
+                    </tr>
+                </thead>
+                <tbody class="text-white">
+                    <?php
+                    $data = $this->db->query("select * from movie order by movieName asc");
+
+                    $count = 1;
+
+                    foreach ($data as $d) {
+                        echo "<tr><th scope='row'>" . $d['showID'] . "</th><td>" . $d['movieName'] . "</td><td>" . $d['rating'] . "</td><td>" . $d['duration'] . "</td><td>" . $d['releaseYear'] . "</td><td>" . $d['country'] . "</td></tr>";
+                        $count = $count + 1;
+                    }
+                    ?>
+                </tbody>
+            </table>
             <br />
         </div>
 
-        <div class="row">
-            <div class="col-xs-8 mx-auto">
-                <h2 class="text-center" style="color: white;">Complete List of Movies</h2>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-white">Show ID</th>
-                            <th scope="col" class="text-white">Movie</th>
-                            <th scope="col" class="text-white">Rating</th>
-                            <th scope="col" class="text-white">Duration</th>
-                            <th scope="col" class="text-white">Year</th>
-                            <th scope="col" class="text-white">Country</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-white">
-                        <?php
-                        $data = $this->db->query("select * from movie order by movieName asc");
 
-                        $count = 1;
+        
+        <div class="col-xs-8 mx-auto">
+            <h2 class="text-center" style="color: white;">Distribution of Countries</h2>
 
-                        foreach ($data as $d) {
-                            echo "<tr><th scope='row'>" . $d['showID'] . "</th><td>" . $d['movieName'] . "</td><td>" . $d['rating'] . "</td><td>" . $d['duration'] . "</td><td>" . $d['releaseYear'] . "</td><td>" . $d['country'] . "</td></tr>";
-                            $count = $count + 1;
-                        }
-                        ?>
-                    </tbody>
-                </table>
-                <br />
-            </div>
+            <table class="table" cellspacing="pixels">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-white">Count</th>
+                        <th scope="col" class="text-white">Country</th>
+                    </tr>
+                </thead>
+                <tbody class="text-white">
+
+                    <?php
+
+                    $movieCountry = $this->db->query("select COUNT(showID) as id, country from movie_country group by country order by id asc");
+
+                    foreach ($movieCountry as $d) {
+                        echo "<tr><th scope='row'>" . $d["id"] . "</th><td>" . $d['country'] . "</td>";
+                    }
+
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <br></br>
+    <h4 class="text-center" style="color: white;">Search the Name of a Movie to Learn More</h4>
+    <div class="row">
+        <div class="col-xs-8 mx-auto">
+
+            <form action="?command=movie" method="post">
+
+                <div class="input-group h-10 p-5 mb-3">
+                    <input type="text" class="form-control" name="theMovie" id="theMovie" placeholder="Enter movie here">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
 
         </div>
-        <br></br>
-        <h4 class="text-center" style="color: white;">Search the Name of a Movie to Learn More</h4>
-        <div class="row">
-            <div class="col-xs-8 mx-auto">
-
-                <form action="?command=movie" method="post">
-
-                    <div class="input-group h-10 p-5 mb-3">
-                        <input type="text" class="form-control" name="theMovie" id="theMovie" placeholder="Enter movie here">
-                        <div class="input-group-append">
-                            <button class="btn btn-dark" type="submit">Search</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>

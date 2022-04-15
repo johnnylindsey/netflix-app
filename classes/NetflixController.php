@@ -125,15 +125,14 @@ class NetflixController
 
     private function deleteAccount()
     {
-            $delete = $this->db->query("delete from user where username = ?", "s", $_SESSION["username"]);
+        $delete = $this->db->query("delete from user where username = ?", "s", $_SESSION["username"]);
 
-            if ($delete === false) {
-                $error_msg = "Error deleting user";
-            } else {
-                $this->destroySession();
-                header("Location: ?command=login");
-            }
-
+        if ($delete === false) {
+            $error_msg = "Error deleting user";
+        } else {
+            $this->destroySession();
+            header("Location: ?command=login");
+        }
     }
 
     private function netflix()
@@ -157,6 +156,18 @@ class NetflixController
         $_SESSION["theMovie"] = $_POST["theMovie"];
 
         include("templates/movie.php");
+    }
+
+    private function favorite()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        $s = $this->db->query("select * from movie where movieName = ?;", "s", $_SESSION["theMovie"]);
+        $theInsert = $this->db->query("insert into favorites (username, showID) values (?, ?);", "ss", $user["username"], $s[0]["showID"]);
     }
 
     private function myAccount()
@@ -210,6 +221,7 @@ class NetflixController
 
         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
         $theInsert = $this->db->query("insert into comment (showID, time, username, commentText) values (?, ?, ?, ?);", "ssss", $d[0]["showID"], date("Y-m-d h:i:sa"), $user["username"], $_POST["theComment"]);
+        $commentsOn = $this->db->query("insert into commentsOn (username, showID) values (?, ?);", "ss",  $user["username"], $d[0]["showID"]);
         header("Location: ?command=netflix");
     }
 
@@ -286,4 +298,3 @@ class NetflixController
     }
 
 }
-
