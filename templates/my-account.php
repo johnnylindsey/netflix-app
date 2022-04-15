@@ -48,6 +48,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">showID</th>
                             <th scope="col">Title</th>
                         </tr>
                     </thead>
@@ -59,7 +60,7 @@
                         foreach ($cdat as $c) {
                             $title = $this->db->query("select movieName from movie where showID = ?", "s", $c["showID"]);
                             foreach ($title as $t) {
-                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $t['movieName'] . "</td></tr>";
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $c["showID"] . "</th><td>" . $t['movieName'] . "</td></tr>";
                                 $count = $count + 1;                            
                             }
                         }
@@ -68,6 +69,15 @@
                 </table>
 
             </div>
+        </div>
+
+        <div class="text-center">
+            <form action="?command=deleteFavorite" method="post">
+                <div class="input-group h-10 p-5 mb-3">
+                    <input type="text" class="form-control" name="theComment" id="theComment" placeholder="Enter showID to delete movie from favorites">
+                    <button class="btn btn-dark" name = "btnAction" type="submit">Delete</button>
+                </div>
+            </form>
         </div>
 
         <div class="text-center" style="color: white;">
@@ -80,6 +90,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">showID</th>
                             <th scope="col">Title</th>
                             <th scope="col">Time</th>
                             <th scope="col">Comment</th>
@@ -93,7 +104,7 @@
                         foreach ($cdat as $c) {
                             $title = $this->db->query("select movieName from movie where showID = ?", "s", $c["showID"]);
                             foreach ($title as $t) {
-                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $t["movieName"] . "</th><td>" . $c['time'] . "</td><td>" . $c['commentText'] . "</td></tr>";
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $c["showID"] . "</th><td>" . $t["movieName"] . "</th><td>" . $c['time'] . "</td><td>" . $c['commentText'] . "</td></tr>";
                                 $count = $count + 1;                            
                             }
 
@@ -106,15 +117,13 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class=" col-xs-8 mx-auto">
-                <form action="?command=deleteAccount" method="post">
-
-                <div class="col text-center">
-                    <button class="btn btn-dark" name="deleteMe" type="submit">Delete Account</button>
+        <div class="text-center">
+            <form action="?command=deleteComment" method="post">
+                <div class="input-group h-10 p-5 mb-3">
+                    <input type="text" class="form-control" name="theComment" id="theComment" placeholder="Enter showID to delete comment for that movie">
+                    <button class="btn btn-dark" name = "btnAction" type="submit">Delete</button>
                 </div>
             </form>
-            </div>
         </div>
 
     </div>

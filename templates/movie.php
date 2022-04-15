@@ -34,6 +34,19 @@
             echo "<div class='alert alert-danger'>$error_msg</div>";
         }
         ?>
+        
+        <div class="h-10 p-5">
+            <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
+            <br/>
+            <div class="col-1 mx-auto">
+                <form action="?command=favorite" method="post">
+
+                    <div class="input-group h-10">
+                        <button class="btn btn-dark" name="favorite" type="submit">Favorite</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>

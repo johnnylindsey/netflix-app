@@ -33,9 +33,19 @@ class NetflixController
             case "addComment":
                 $this->addComment();
                 break;
+            case "deleteComment":
+                $this->deleteComment($_POST["theComment"]);
+                header("Location: ?command=myAccount");
+                break;
             case "deleteAccount":
                 $this->deleteAccount();
                 break;
+            case "favorite":
+                $this->favorite();
+                header("Location: ?command=myAccount");
+            case "deleteFavorite":
+                $this->deleteFavorite($_POST["theComment"]);
+                header("Location: ?command=myAccount");
             case "login":
             default:
                 $this->login();
@@ -163,6 +173,29 @@ class NetflixController
         return $select;
     }
 
+    private function favorite()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        $s = $this->db->query("select * from movie where movieName = ?;", "s", $_SESSION["theMovie"]);
+        $theInsert = $this->db->query("insert into favorites (username, showID) values (?, ?);", "ss", $user["username"], $s[0]["showID"]);
+    }  
+    
+    private function deleteFavorite($showID)
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+
+        $d = $this->db->query("delete from favorites where (showID=?) and (username=?)", "ss", $showID, $user["username"]);
+    } 
+
     private function addComment()
     {
 
@@ -174,6 +207,25 @@ class NetflixController
         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
         $theInsert = $this->db->query("insert into comment (showID, time, username, commentText) values (?, ?, ?, ?);", "ssss", $d[0]["showID"], date("Y-m-d h:i:sa"), $user["username"], $_POST["theComment"]);
         header("Location: ?command=netflix");
+    }
+
+    function deleteComment($showID)
+    {
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+        
+        $d = $this->db->query("delete from Comment where (showID=?) and (username=?)", "ss", $showID, $user["username"]);
+
+        //$query = "delete from Comment where (showID=:showID) and (username=:username)";
+        //$query = "delete from Comment where username=:username";
+        //$statement = $this->db->prepare($query);
+        //$statement->bindValue(':showID', $showID);
+        //$statement->bindValue(':username', $user["username"]);
+        //making sure it runs against the database
+        //$statement->execute();
+        //$statement->closeCursor();
     }
 
     function getAllComments()
@@ -226,16 +278,5 @@ class NetflixController
         $statement->closeCursor();
     }
 
-
-    function deleteComment($username)
-    {
-        global $db;
-        $query = "delete from Comment where username=:name";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':name', $username);
-        //making sure it runs against the database
-        $statement->execute();
-        $statement->closeCursor();
-    }
 }
 
