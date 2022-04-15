@@ -37,6 +37,10 @@ class NetflixController
                 $this->deleteComment($_POST["theComment"]);
                 header("Location: ?command=myAccount");
                 break;
+            case "updateComment":
+                $this->updateComment();
+                header("Location: ?command=myAccount");
+                break;
             case "deleteAccount":
                 $this->deleteAccount();
                 break;
@@ -228,6 +232,21 @@ class NetflixController
         //$statement->closeCursor();
     }
 
+    private function updateComment()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+        echo $_POST["theComment"];
+        echo $_POST["showID"];
+        $d = $this->db->query("update comment set commentText=? WHERE (showID=?) and (username=?)", "sss", $_POST["theComment"], $_POST["showID"], $user["username"]);
+        echo $d;
+        echo $user["username"];
+
+    }
+
     function getAllComments()
     {
         global $db;
@@ -264,18 +283,6 @@ class NetflixController
         $statement->closeCursor();
 
         return $results;
-    }
-
-    function updateComment($username, $commentText)
-    {
-        global $db;
-        $query = "update Comment set commentText=:commentText where username=:name";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':commentText', $commentText);
-        $statement->bindValue(':name', $username);
-        //making sure it runs against the database
-        $statement->execute();
-        $statement->closeCursor();
     }
 
 }

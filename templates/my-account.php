@@ -126,6 +126,16 @@
             </form>
         </div>
 
+        <div class="text-center">
+            <form action="?command=updateComment" method="post">
+                <div class="input-group h-10 p-5 mb-3">
+                    <input type="text" class="form-control" name="showID" id="showID" placeholder="Enter showID">
+                    <input type="text" class="form-control" name="theComment" id="theComment" placeholder="Enter new comment text">
+                    <button class="btn btn-dark" name = "btnAction" type="submit" >Update</button>
+                </div>
+            </form>
+        </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     

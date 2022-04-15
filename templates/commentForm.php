@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Update")
     {  
-      
-      $comment_to_update = getComment_byName($_POST['comment_to_update']);
 
+      updateComment();
+      $list_of_comments = getAllComments();
 
     }
     else if (!empty($_POST['btnAction']) && $_POST['btnAction'] == "Delete")
