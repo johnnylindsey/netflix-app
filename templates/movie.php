@@ -46,7 +46,7 @@
                         <tr>
                             <th scope="col" class="text-white">Show ID</th>
                             <th scope="col" class="text-white">Username</th>
-                            <th scope="col" class="text-white">Comment</th>
+                            <th scope="col" class="text-white">Rating</th>
                             <th scope="col" class="text-white">Duration</th>
                             <th scope="col" class="text-white">Year</th>
                             <th scope="col" class="text-white">Country</th>

@@ -69,7 +69,36 @@
                 <br />
             </div>
 
+        
+            <div class="col-xs-8 mx-auto">
+                <h2 class="text-center" style="color: white;">Distribution of Countries</h2>
+
+                <table class="table" cellspacing="pixels">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-white">Count</th>
+                            
+                            <th scope="col" class="text-white"> Country</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-white">
+                        <?php
+                        #$d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
+                        $d = $this->db->query("select * from movie natural join movie_country where  movieName = ?", "s", $_SESSION["theMovie"]);
+                        #$movieCountry = $this->db->query("select country, count(country) from movie_country where showID = ?", "s", $d[0]["showID"]);
+                        $movieCountry = $this->db->query("select country, count(country) from movie_country group by country");
+                        $count = 1;
+                        foreach ($movieCountry as $d) {
+                            echo "<tr><th scope='row'>" . $count . "</th><td>" . "</td><td>" . $d['country'] . "</td>";
+                            $count = $count + 1;
+                        }
+                        
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
         <br></br>
         <h4 class="text-center" style="color: white;">Search the Name of a Movie to Learn More</h4>
         <div class="row">
