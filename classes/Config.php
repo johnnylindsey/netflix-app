@@ -11,6 +11,7 @@ class Config
         "host" => "mysql:unix_socket=/cloudsql/master-vehicle-344423:us-east4:db-demo;dbname=netflix",
         "user" => "root",
         "pass" => "fHC1tueuKA1a3xbJ",
+
         "database" => "netflix"
     ];
 }
