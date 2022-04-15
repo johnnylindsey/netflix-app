@@ -39,6 +39,38 @@
         ?>
 
         <div class="text-center" style="color: white;">
+            <h2>My Favorites</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-8 mx-auto" >
+                <table class="table"  style="color: white;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $cdat = $this->db->query("select * from favorites where username = ?", "s", $user["username"]);
+
+                        $count = 1;
+                        foreach ($cdat as $c) {
+                            $title = $this->db->query("select movieName from movie where showID = ?", "s", $c["showID"]);
+                            foreach ($title as $t) {
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $t['movieName'] . "</td></tr>";
+                                $count = $count + 1;                            
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="text-center" style="color: white;">
             <h2>My Comments</h2>
         </div>
 
@@ -48,6 +80,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Title</th>
                             <th scope="col">Time</th>
                             <th scope="col">Comment</th>
                         </tr>
@@ -58,8 +91,12 @@
 
                         $count = 1;
                         foreach ($cdat as $c) {
-                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $c['time'] . "</td><td>" . $c['commentText'] . "</td></tr>";
-                            $count = $count + 1;
+                            $title = $this->db->query("select movieName from movie where showID = ?", "s", $c["showID"]);
+                            foreach ($title as $t) {
+                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $t["movieName"] . "</th><td>" . $c['time'] . "</td><td>" . $c['commentText'] . "</td></tr>";
+                                $count = $count + 1;                            
+                            }
+
                         }
 
                         ?>

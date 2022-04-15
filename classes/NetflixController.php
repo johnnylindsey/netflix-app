@@ -238,3 +238,4 @@ class NetflixController
         $statement->closeCursor();
     }
 }
+
