@@ -70,7 +70,7 @@
         </div>
 
 
-        
+
         <div class="col-xs-8 mx-auto">
             <h2 class="text-center" style="color: white;">Distribution of Countries</h2>
 
@@ -85,7 +85,7 @@
 
                     <?php
 
-                    $movieCountry = $this->db->query("select COUNT(showID) as id, country from movie_country group by country order by id asc");
+                    $movieCountry = $this->db->query("select COUNT(showID) as id, country from movie_country where country is not null group by country order by id asc");
 
                     foreach ($movieCountry as $d) {
                         echo "<tr><th scope='row'>" . $d["id"] . "</th><td>" . $d['country'] . "</td>";
@@ -114,6 +114,21 @@
 
         </div>
     </div>
+
+    <h4 class="text-center" style="color: white;">List of Actors and Directors</h4>
+    <br>
+    <div class="row">
+        <div class="col-1 mx-auto">
+
+            <div class="btn-group">
+                <form action="?command=bigList" method="post">
+                    <button class="btn btn-dark" type="submit">Go to list</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
 

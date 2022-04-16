@@ -34,19 +34,6 @@
             echo "<div class='alert alert-danger'>$error_msg</div>";
         }
         ?>
-        
-        <div class="h-10 p-5">
-            <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
-            <br/>
-            <div class="col-1 mx-auto">
-                <form action="?command=favorite" method="post">
-
-                    <div class="input-group h-10">
-                        <button class="btn btn-dark" name="favorite" type="submit">Favorite</button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <div class="h-10 p-5">
             <h2 class="text-center" style="color: white;">Results for <?= $_SESSION["theMovie"] ?></h2>
@@ -107,10 +94,8 @@
                             $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
                             $stars = $this->db->query("select * from starsin where showID = ?", "s", $d[0]["showID"]);
 
-                            $count = 1;
                             foreach ($stars as $s) {
-                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $s['showID'] . "</td><td>" . $s['name'] . "</td>";
-                                $count = $count + 1;
+                                echo "<tr><th scope='row'>" . $s['showID'] . "</th><td>" . $s['name'] . "</td>";
                             }
 
                             ?>
@@ -133,10 +118,8 @@
                             $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
                             $directs = $this->db->query("select * from directs where showID = ?", "s", $d[0]["showID"]);
 
-                            $count = 1;
                             foreach ($directs as $d) {
-                                echo "<tr><th scope='row'>" . $count . "</th><td>" . $d['showID'] . "</td><td>" . $d['name'] . "</td>";
-                                $count = $count + 1;
+                                echo "<tr><th scope='row'>" . $d['showID'] . "</th><td>" . $d['name'] . "</td>";
                             }
 
                             ?>
@@ -157,17 +140,18 @@
                         <tr>
                             <th scope="col" class="text-white">#</th>
                             <th scope="col" class="text-white">Username</th>
-                            <th scope="col" class="text-white">Time</th>
                             <th scope="col" class="text-white">Comment</th>
                         </tr>
                     </thead>
                     <tbody class="text-white">
                         <?php
+
+                        $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
                         $cdat = $this->db->query("select * from comment where showID = ?", "s", $d[0]['showID']);
 
                         $count = 1;
                         foreach ($cdat as $c) {
-                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $c['username'] . "</td><td>" . $c['time'] . "</td><td>" . $c['commentText'] . "</td></tr>";
+                            echo "<tr><th scope='row'>" . $count . "</th><td>" . $c['username'] . "</td><td>" . $c['commentText'] . "</td></tr>";
                             $count = $count + 1;
                         }
 

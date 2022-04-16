@@ -3,11 +3,11 @@
 
 ////////////////////////////////////////////
 /** S22, PHP (on Google Standard App Engine) connect to MySQL instance (GCP) **/
-// $username = 'root';                      // or your username
-// $password = 'your-root-password';        // or your password
-// $host = 'cs4750:us-east4:db-demo';       // projectID = cs4750, SQL instance ID = db-demo
-// $dbname = 'guestbook';                   // database name = guestbook
-// $dsn = "mysql:unix_socket=/cloudsql/cs4750:us-east4:db-demo;dbname=guestbook";
+$username = 'root';                      // or your username
+$password = 'fHC1tueuKA1a3xbJ';        // or your password
+$host = 'master-vehicle-344423:us-east4:db-demo';       // projectID = cs4750, SQL instance ID = db-demo
+$dbname = 'netflix';                   // database name = guestbook
+$dsn = "mysql:unix_socket=/cloudsql/master-vehicle-344423:us-east4:db-demo;dbname=netflix";
 
 // to get instance connection name, go to GCP SQL overview page
 ////////////////////////////////////////////
@@ -29,11 +29,11 @@
 ////////////////////////////////////////////
 
 /** S22, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on local XAMPP) **/
-$username = '';
-$password = '';
-$host = 'localhost:3306';
-$dbname = 'netflix';
-$dsn = "mysql:host=$host;dbname=$dbname";  
+//$username = '';
+//$password = '';
+//$host = 'localhost:3306';
+//$dbname = 'netflix';
+//$dsn = "mysql:host=$host;dbname=$dbname";  
 ////////////////////////////////////////////
 
  

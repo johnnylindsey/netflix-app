@@ -17,6 +17,10 @@ class NetflixController
             case "netflix":
                 $this->netflix();
                 break;
+            case "updateComment":
+                $this->updateComment();
+                header("Location: ?command=myAccount");
+                break;
             case "movie":
                 $this->movie();
                 break;
@@ -29,6 +33,9 @@ class NetflixController
                 break;
             case "create":
                 $this->createAccount();
+                break;
+            case "bigList":
+                $this->bigList();
                 break;
             case "addComment":
                 $this->addComment();
@@ -68,7 +75,9 @@ class NetflixController
 
         if (isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["username"]) && !empty($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["password"])) {
 
-            $data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["username"]);
+            //$data = $this->db->query("select * from user where email = ? and username = ?;", "ss", $_POST["email"], $_POST["username"]);
+
+            $data = $this->db->query("select * from user where email=? and username=?", "ss", $_POST["email"], $_POST["username"]);
 
             if ($data === false) {
                 $error_msg = "Bad user";
@@ -87,6 +96,15 @@ class NetflixController
             }
         }
 
+        //$query = "delete from Comment where (showID=:showID) and (username=:username)";
+        //$query = "delete from Comment where username=:username";
+        //$statement = $this->db->prepare($query);
+        //$statement->bindValue(':showID', $showID);
+        //$statement->bindValue(':username', $user["username"]);
+        //making sure it runs against the database
+        //$statement->execute();
+        //$statement->closeCursor();
+
         include "templates/login.php";
     }
 
@@ -99,6 +117,11 @@ class NetflixController
         }
     }
 
+    private function bigList()
+    {
+        include('templates/actorsList.php');
+    }
+
     private function createAccount()
     {
 
@@ -107,6 +130,7 @@ class NetflixController
             $insert = $this->db->query("insert into user (username, email, password) values (?, ?, ?);", "sss", $_POST["username"], $_POST["email"], password_hash($_POST["password"], PASSWORD_DEFAULT));
 
             if ($insert === false) {
+
                 $error_msg = "Error inserting user";
             } else {
                 $_SESSION["email"] = $_POST["email"];
@@ -177,13 +201,6 @@ class NetflixController
         include("templates/my-account.php");
     }
 
-    public function getMovieByName($name = null)
-    {
-        $select = $this->db->query("select * from movie where movieName = ?;", "s", $name);
-
-        return $select;
-    }
-    
     private function deleteFavorite($showID)
     {
 
@@ -193,7 +210,7 @@ class NetflixController
         ];
 
         $d = $this->db->query("delete from favorites where (showID=?) and (username=?)", "ss", $showID, $user["username"]);
-    } 
+    }
 
     private function addComment()
     {
@@ -204,9 +221,23 @@ class NetflixController
         ];
 
         $d = $this->db->query("select * from movie where movieName = ?", "s", $_SESSION["theMovie"]);
-        $theInsert = $this->db->query("insert into comment (showID, time, username, commentText) values (?, ?, ?, ?);", "ssss", $d[0]["showID"], date("Y-m-d h:i:sa"), $user["username"], $_POST["theComment"]);
-        $commentsOn = $this->db->query("insert into commentsOn (username, showID) values (?, ?);", "ss",  $user["username"], $d[0]["showID"]);
+        $theInsert = $this->db->query("insert into comment (showID, username, commentText) values (?, ?, ?);", "sss", $d[0]["showID"], $user["username"], $_POST["theComment"]);
+        $commentsOn = $this->db->query("insert into commentson (username, time, showID) values (?, ?, ?);", "sss",  $user["username"], date("H:i:s"), $d[0]["showID"]);
         header("Location: ?command=netflix");
+    }
+
+    private function updateComment()
+    {
+
+        $user = [
+            "email" => $_SESSION["email"],
+            "username" => $_SESSION["username"]
+        ];
+        echo $_POST["theComment"];
+        echo $_POST["showID"];
+        $d = $this->db->query("update comment set commentText=? WHERE (showID=?) and (username=?)", "sss", $_POST["theComment"], $_POST["showID"], $user["username"]);
+        echo $d;
+        echo $user["username"];
     }
 
     function deleteComment($showID)
@@ -215,8 +246,8 @@ class NetflixController
             "email" => $_SESSION["email"],
             "username" => $_SESSION["username"]
         ];
-        
-        $d = $this->db->query("delete from Comment where (showID=?) and (username=?)", "ss", $showID, $user["username"]);
+
+        $d = $this->db->query("delete from comment where (showID=?) and (username=?)", "ss", $showID, $user["username"]);
 
         //$query = "delete from Comment where (showID=:showID) and (username=:username)";
         //$query = "delete from Comment where username=:username";
@@ -227,55 +258,4 @@ class NetflixController
         //$statement->execute();
         //$statement->closeCursor();
     }
-
-    function getAllComments()
-    {
-        global $db;
-        $query = "select * from Comment";
-
-
-        // 1. prepare
-        // 2. bindValue & execute
-        $statement = $db->prepare($query);
-        $statement->execute();
-
-        // fetchAll() returns an array of all rows in the result set
-        $results = $statement->fetchAll();
-
-        $statement->closeCursor();
-
-        return $results;
-    }
-
-    function getComment_byName($username)
-    {
-        global $db;
-        $query = "select * from Comment where username = :name";
-
-        // 1. prepare
-        // 2. bindValue & execute
-        $statement = $db->prepare($query);
-        $statement->bindValue(':name', $username);
-        $statement->execute();
-
-        // fetch() returns a row
-        $results = $statement->fetch();
-
-        $statement->closeCursor();
-
-        return $results;
-    }
-
-    function updateComment($username, $commentText)
-    {
-        global $db;
-        $query = "update Comment set commentText=:commentText where username=:name";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':commentText', $commentText);
-        $statement->bindValue(':name', $username);
-        //making sure it runs against the database
-        $statement->execute();
-        $statement->closeCursor();
-    }
-
 }
