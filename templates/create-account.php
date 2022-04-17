@@ -14,7 +14,7 @@
 <nav class="navbar navbar-dark bg-dark" >
     <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Neflix App</a>
+      <a class="navbar-brand" href="#">Netflix App</a>
     </div>
         <ul class="nav navbar-nav">
         <li><a href="?command=login" class="text-white">Login</a></li>
